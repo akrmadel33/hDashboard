@@ -19,9 +19,16 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss"
+        "scss/styles.scss",
+        "assets/css/gridstack.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/scripts/lodash.min.js",
+        "assets/scripts/jquery.min.js",
+        "assets/scripts/jquery-ui.min.js",
+        "assets/scripts/gridstack.min.js",
+        "assets/scripts/gridstack.jQueryUI.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

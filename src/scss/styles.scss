@@ -1,0 +1,145 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'variables', 'mixins', 'fonts';
+
+body {
+  padding: 0;
+  margin: 15px;
+}
+
+.grid-stack-item-content {
+  border: 2px solid $border-color;
+  border-radius: $border-radius;
+
+  .grid-label {
+    font-family: $label-font;
+    font-size: 1.7vw;
+    padding: 5px 10px;
+  }
+
+  .grid-data {
+    font-family: $numbers-font;
+    font-size: 7.5vw;
+    text-align: center;
+    padding-top: 30px;
+  }
+  .grid-data.data-small {
+    font-size: 6.5vw;
+  }
+
+  .grid-data-compact {
+    font-family: $numbers-font;
+    width: calc(32% - 40px);
+    padding: 20px;
+    display: inline-block;
+
+    .label {
+      @extend .grid-label;
+      font-size: 1.5vw;
+      padding-left: 0;
+    }
+
+    .data {
+      font-size: 3.5vw;
+    }
+  }
+
+  .data-card {
+    font-family: $label-font;
+    width: calc(32% - 50px);
+    height: 188px;
+    margin: 20px;
+    padding: 5px;
+    display: inline-block;
+    border: 1px solid #636e72;
+    border-radius: 2px;
+    font-size: 1.5vw;
+
+    .data {
+      font-family: initial;
+      font-weight: 800;
+      font-size: 1.7vw;
+      height: 81px;
+      overflow: hidden;
+
+      .data-action {
+        font-family: $label-font;
+        font-weight: 500;
+        font-size: 1.2vw;
+        padding: 0 5px;
+        background-color: #9bbb58;
+      }
+    }
+
+    .data-time {
+      padding-top: 20px;
+      font-size: 1.3vw;
+    }
+  }
+
+  .usage-data {
+    font-size: 1.5vw;
+    font-weight: 700;
+
+    .name { padding-left: 10px; color: initial; }
+
+    .circle {
+      margin-top: 20px;
+      width: 190px;
+      height: 190px;
+      box-sizing: border-box;
+      margin: auto;
+      border: 8px solid black;
+      border-radius: 50%;
+      position: relative;
+      font-family: $numbers-font;
+
+      .circle-content {
+        position: absolute;
+        text-align: center;
+        width: calc(190px - 16px);
+        top: 50%;
+        transform: translate(0%, -50%);
+        font-size: 20px;
+
+        .number { font-size: 80px; }
+      }
+    }
+  }
+
+  .unlabeled-data {
+    padding: 20px 15px;
+
+    .data-text {
+      display: inline-block;
+      width: 45%;
+      font-size: 1.6vw;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+
+    .data-number {
+      @extend .data-text;
+      font-size: 4vw;
+      font-family: $numbers-font;
+      text-align: right;
+    }
+  }
+
+  .icon-expand, .icon-compress {
+    position: absolute;
+    bottom: 0; right: 0;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .icon-expand.exp-false, .icon-compress.exp-false { display: none; }
+
+  .pie-chart1-container { max-width: 300px; padding-left: 50px; }
+  .pie-chart2-container, .pie-chart3-container { max-width: 175px; padding: 10px; margin: auto; }
+
+  .bar-chart1-container { max-width: 644px; margin: auto; }
+  .bar-chart4-container { margin: auto; max-width: 855px; padding-top: 10px;}
+
+  .bar-chart2-container, .bar-chart3-container { padding: 10px 10px 0; }
+}

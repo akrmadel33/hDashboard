@@ -1,21 +1,378 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div id="grid1" class="grid-stack">
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+        <div class="grid-label">
+          Current Data
+        </div>
+
+        <div class="grid-data">
+          127
+        </div>
+
+    </div>
+  </div> <!-- Current Data -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="4" data-gs-width="2" data-gs-height="5">
+    <div class="grid-stack-item-content">
+
+        <div class="grid-label">
+          Number of Compartment Users
+        </div>
+
+        <div class="grid-data">
+          20
+        </div>
+
+    </div>
+  </div> <!-- Number of Compartment Users -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="2" data-gs-y="0" data-gs-width="6" data-gs-height="9">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        No. of Containers / Container Usage
+      </div>
+
+      <div class="pie-chart1-container">
+        <canvas id="pie-chart1" width="200px" height="200"></canvas>
+      </div>
+
+      <div class="bar-chart1-container">
+        <canvas id="bar-chart1" width="200px" height="100"></canvas>
+      </div>
+
+    </div>
+  </div> <!-- No. of Containers -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="0" data-gs-width="4" data-gs-height="6">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Total Divisions / Regions
+      </div>
+
+      <div class="bar-chart2-container">
+        <canvas id="bar-chart2" width="200" height="130"></canvas>
+      </div>
+
+    </div>
+  </div> <!-- Total Divisions -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="6" data-gs-width="4" data-gs-height="5">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        ERP Active Users
+      </div>
+
+      <div class="grid-data-compact" style="color:#ef9d38">
+        <span class="label"> HO </span>
+        <br>
+        <span class="data"> 127 </span>
+      </div>
+
+      <div class="grid-data-compact" style="color:#ea642b">
+        <span class="label"> Mumbai </span>
+        <br>
+        <span class="data"> 99 </span>
+      </div>
+
+      <div class="grid-data-compact" style="color:#f7d247">
+        <span class="label"> Sing </span>
+        <br>
+        <span class="data"> 10 </span>
+      </div>
+
+      <div class="grid-data-compact" style="color:#2052d1">
+        <span class="label"> Chennai </span>
+        <br>
+        <span class="data"> 101 </span>
+      </div>
+
+      <div class="grid-data-compact" style="color:#428fcf">
+        <span class="label"> Dubai </span>
+        <br>
+        <span class="data"> 87 </span>
+      </div>
+
+    </div>
+  </div> <!-- ERP Active Users -->
+
+
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="9" data-gs-width="8" data-gs-height="7">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        ERP Access Locations
+      </div>
+
+    </div>
+  </div> <!-- ERP Access Locations -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="11" data-gs-width="4" data-gs-height="6">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Vouchers Usage
+      </div>
+
+      <div class="bar-chart3-container">
+        <canvas id="bar-chart3" width="200" height="130"></canvas>
+      </div>
+
+    </div>
+  </div> <!-- Vouchers Usage -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="16" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Users using Bio Auth
+      </div>
+
+      <div class="grid-data data-small">
+        20
+      </div>
+
+    </div>
+  </div> <!-- Users using Bio Auth -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="2" data-gs-y="16" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content" style="color:#8165a2">
+
+      <div class="grid-label">
+        Users using ID Cards
+      </div>
+
+      <div class="grid-data data-small">
+        109
+      </div>
+
+    </div>
+  </div> <!-- Users using ID Cards -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="4" data-gs-y="16" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content" style="color:#9bbb58">
+
+      <div class="grid-label">
+        Trackers Deployed
+      </div>
+
+      <div class="grid-data data-small">
+        150
+      </div>
+
+    </div>
+  </div> <!-- Trackers Deployed -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="6" data-gs-y="16" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content" style="color:#428fcf">
+
+      <div class="grid-label">
+        Real time data points
+      </div>
+
+      <div class="grid-data data-small">
+        11
+      </div>
+
+    </div>
+  </div> <!-- Real time data points -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="20" data-gs-width="8" data-gs-height="6">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        File Approved Today [date]
+      </div>
+
+      <div class="bar-chart4-container">
+        <canvas id="bar-chart4" width="200px" height="90"></canvas>
+      </div>
+
+    </div>
+  </div> <!-- File Approved Today -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="17" data-gs-width="2" data-gs-height="5">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Container Forwarding Approved
+      </div>
+
+      <div class="grid-data">
+        2
+      </div>
+
+    </div>
+  </div> <!-- Container Forwarding Approved -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="22" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Packages unloaded
+      </div>
+
+      <div class="grid-data data-small">
+        349
+      </div>
+
+    </div>
+  </div> <!-- Packages unloaded -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="10" data-gs-y="17" data-gs-width="2" data-gs-height="9">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        No. of Containers
+      </div>
+
+      <div class="pie-chart2-container">
+        <canvas id="pie-chart2" width="200px" height="200"></canvas>
+      </div>
+
+      <br><br>
+
+      <div class="grid-label">
+        No. of Packages
+      </div>
+
+      <div class="pie-chart3-container">
+        <canvas id="pie-chart3" width="200px" height="200"></canvas>
+      </div>
+
+    </div>
+  </div> <!-- No. of containers loaded / unloaded -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="0" data-gs-y="26" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        On field Officers
+      </div>
+
+      <div class="grid-data data-small">
+        9
+      </div>
+
+    </div>
+  </div> <!-- On field Officers -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="2" data-gs-y="26" data-gs-width="6" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+      <div class="grid-label">
+        Security Setting Updates
+      </div>
+
+      <div class="data-card">
+        <div> User </div>
+
+        <div class="data">
+          pramod sharma
+          <br> <span class="data-action"> deleted </span>
+        </div>
+
+        <div class="data-time">Yesterday, 19:20</div>
+      </div>
+
+      <div class="data-card">
+        <div> Added </div>
+
+        <div class="data">
+          rohan patil
+          <br> <span class="data-action"> to group Staff </span>
+        </div>
+
+        <div class="data-time">Today, 11:34</div>
+      </div>
+
+      <div class="data-card">
+        <div> Saw </div>
+
+        <div class="data">
+          vinay gupta
+          <br> <span class="data-action"> password </span>
+        </div>
+
+        <div class="data-time">Today, 13:03</div>
+      </div>
+
+    </div>
+  </div> <!-- Security Setting Updates -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="8" data-gs-y="26" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content" style="color:#428fcf">
+
+      <div class="grid-label">
+        Crane Usage
+      </div>
+
+      <div class="usage-data">
+        <div class="name"> rajesh </div>
+
+        <div class="circle">
+          <div class="circle-content">
+            <span class="number">22</span>
+            <br> MINUTES
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div> <!-- Crane Usage -->
+
+
+
+  <div class="grid-stack-item" data-gs-x="10" data-gs-y="26" data-gs-width="2" data-gs-height="4">
+    <div class="grid-stack-item-content">
+
+      <div class="unlabeled-data" style="color:#999999">
+        <div class="data-text"> Added Clients </div>
+        <div class="data-number"> 3 </div>
+      </div>
+
+      <div class="unlabeled-data" style="color:#9bbb58">
+        <div class="data-text"> Added Partners </div>
+        <div class="data-number"> 7 </div>
+      </div>
+
+    </div>
+  </div> <!-- unlabeled data -->
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
 <router-outlet></router-outlet>
