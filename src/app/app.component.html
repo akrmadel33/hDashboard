@@ -1,14 +1,21 @@
 <div id="grid1" class="grid-stack">
   <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="2" data-gs-height="4">
-    <div class="grid-stack-item-content">
+    <div class="grid-stack-item-content" [attr.data-exp-width]="apiData.currentData.length" data-orgn-width="2" data-current-data>
 
+      <div class="exp-card" *ngFor="let item of apiData.currentData; index as i"
+      [style.width]="apiData.currentData_width+'px'"
+      [style.height]="apiData.currentData_height+'px'"
+      [style.left]="apiData.currentData_width*i+ i*24 +'px'" >
         <div class="grid-label">
-          Current Data
+          {{ item.name }}
         </div>
 
         <div class="grid-data">
-          127
+          {{ item.val }}
         </div>
+      </div>
+
+      <span class="exp icon-expand"></span>
 
     </div>
   </div> <!-- Current Data -->
@@ -23,7 +30,7 @@
         </div>
 
         <div class="grid-data">
-          20
+          {{ apiData.numberOfCompartment }}
         </div>
 
     </div>
@@ -77,35 +84,36 @@
       <div class="grid-data-compact" style="color:#ef9d38">
         <span class="label"> HO </span>
         <br>
-        <span class="data"> 127 </span>
+        <span class="data"> {{ apiData.erpUsers.ho }} </span>
       </div>
 
       <div class="grid-data-compact" style="color:#ea642b">
         <span class="label"> Mumbai </span>
         <br>
-        <span class="data"> 99 </span>
+        <span class="data"> {{ apiData.erpUsers.mumbai }} </span>
       </div>
 
       <div class="grid-data-compact" style="color:#f7d247">
         <span class="label"> Sing </span>
         <br>
-        <span class="data"> 10 </span>
+        <span class="data"> {{ apiData.erpUsers.sing }} </span>
       </div>
 
       <div class="grid-data-compact" style="color:#2052d1">
         <span class="label"> Chennai </span>
         <br>
-        <span class="data"> 101 </span>
+        <span class="data"> {{ apiData.erpUsers.chennai }} </span>
       </div>
 
       <div class="grid-data-compact" style="color:#428fcf">
         <span class="label"> Dubai </span>
         <br>
-        <span class="data"> 87 </span>
+        <span class="data"> {{ apiData.erpUsers.dubai }} </span>
       </div>
 
     </div>
   </div> <!-- ERP Active Users -->
+
 
 
   <div class="grid-stack-item" data-gs-x="0" data-gs-y="9" data-gs-width="8" data-gs-height="7">
@@ -114,6 +122,8 @@
       <div class="grid-label">
         ERP Access Locations
       </div>
+
+      <div id="map"></div>
 
     </div>
   </div> <!-- ERP Access Locations -->
@@ -144,7 +154,7 @@
       </div>
 
       <div class="grid-data data-small">
-        20
+        {{ apiData.bioAuth }}
       </div>
 
     </div>
@@ -160,7 +170,7 @@
       </div>
 
       <div class="grid-data data-small">
-        109
+        {{ apiData.idCards }}
       </div>
 
     </div>
@@ -176,7 +186,7 @@
       </div>
 
       <div class="grid-data data-small">
-        150
+        {{ apiData.trackersDeployed }}
       </div>
 
     </div>
@@ -192,7 +202,7 @@
       </div>
 
       <div class="grid-data data-small">
-        11
+        {{ apiData.realtimeData }}
       </div>
 
     </div>
@@ -224,7 +234,7 @@
       </div>
 
       <div class="grid-data">
-        2
+        {{ apiData.containerApproved }}
       </div>
 
     </div>
@@ -233,15 +243,22 @@
 
 
   <div class="grid-stack-item" data-gs-x="8" data-gs-y="22" data-gs-width="2" data-gs-height="4">
-    <div class="grid-stack-item-content">
+    <div class="grid-stack-item-content" [attr.data-exp-width]="apiData.packagesUnloaded.length" data-orgn-width="2" data-packages-unloaded>
 
-      <div class="grid-label">
-        Packages unloaded
+      <div class="exp-card" *ngFor="let item of apiData.packagesUnloaded; index as i"
+      [style.width]="apiData.packagesUnloaded_width+'px'"
+      [style.height]="apiData.packagesUnloaded_height+'px'"
+      [style.left]="apiData.packagesUnloaded_width*i+ i*24 +'px'">
+        <div class="grid-label">
+          {{ item.name }}
+        </div>
+
+        <div class="grid-data data-small">
+          {{ item.val }}
+        </div>
       </div>
 
-      <div class="grid-data data-small">
-        349
-      </div>
+      <span class="exp icon-expand"></span>
 
     </div>
   </div> <!-- Packages unloaded -->
@@ -282,7 +299,7 @@
       </div>
 
       <div class="grid-data data-small">
-        9
+        {{ apiData.fieldOfficers }}
       </div>
 
     </div>
@@ -297,37 +314,15 @@
         Security Setting Updates
       </div>
 
-      <div class="data-card">
-        <div> User </div>
+      <div class="data-card" *ngFor="let item of apiData.securityUpdates | slice:0:3">
+        <div> {{ item.event }} </div>
 
         <div class="data">
-          pramod sharma
-          <br> <span class="data-action"> deleted </span>
+          {{ item.name }}
+          <br> <span class="data-action"> {{ item.action }} </span>
         </div>
 
-        <div class="data-time">Yesterday, 19:20</div>
-      </div>
-
-      <div class="data-card">
-        <div> Added </div>
-
-        <div class="data">
-          rohan patil
-          <br> <span class="data-action"> to group Staff </span>
-        </div>
-
-        <div class="data-time">Today, 11:34</div>
-      </div>
-
-      <div class="data-card">
-        <div> Saw </div>
-
-        <div class="data">
-          vinay gupta
-          <br> <span class="data-action"> password </span>
-        </div>
-
-        <div class="data-time">Today, 13:03</div>
+        <div class="data-time">{{ item.date }}</div>
       </div>
 
     </div>
@@ -336,22 +331,29 @@
 
 
   <div class="grid-stack-item" data-gs-x="8" data-gs-y="26" data-gs-width="2" data-gs-height="4">
-    <div class="grid-stack-item-content" style="color:#428fcf">
+    <div class="grid-stack-item-content" style="color:#428fcf" [attr.data-exp-width]="apiData.craneUsage.length" data-orgn-width="2" data-crane-usage>
 
-      <div class="grid-label">
-        Crane Usage
-      </div>
+      <div class="exp-card" *ngFor="let item of apiData.craneUsage; index as i"
+      [style.width]="apiData.craneUsage_width+'px'"
+      [style.height]="apiData.craneUsage_height+'px'"
+      [style.left]="apiData.craneUsage_width*i+ i*24 +'px'">
+        <div class="grid-label">
+          Crane Usage
+        </div>
 
-      <div class="usage-data">
-        <div class="name"> rajesh </div>
+        <div class="usage-data">
+          <div class="name"> {{ item.name }} </div>
 
-        <div class="circle">
-          <div class="circle-content">
-            <span class="number">22</span>
-            <br> MINUTES
+          <div class="circle">
+            <div class="circle-content">
+              <span class="number">{{ item.val }}</span>
+              <br> MINUTES
+            </div>
           </div>
         </div>
       </div>
+
+      <span class="exp icon-expand"></span>
 
     </div>
   </div> <!-- Crane Usage -->
@@ -363,12 +365,12 @@
 
       <div class="unlabeled-data" style="color:#999999">
         <div class="data-text"> Added Clients </div>
-        <div class="data-number"> 3 </div>
+        <div class="data-number"> {{ apiData.untitled.clients }} </div>
       </div>
 
       <div class="unlabeled-data" style="color:#9bbb58">
         <div class="data-text"> Added Partners </div>
-        <div class="data-number"> 7 </div>
+        <div class="data-number"> {{ apiData.untitled.partners }} </div>
       </div>
 
     </div>

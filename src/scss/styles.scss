@@ -125,16 +125,6 @@ body {
     }
   }
 
-  .icon-expand, .icon-compress {
-    position: absolute;
-    bottom: 0; right: 0;
-    padding: 10px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .icon-expand.exp-false, .icon-compress.exp-false { display: none; }
-
   .pie-chart1-container { max-width: 300px; padding-left: 50px; }
   .pie-chart2-container, .pie-chart3-container { max-width: 175px; padding: 10px; margin: auto; }
 
@@ -142,4 +132,32 @@ body {
   .bar-chart4-container { margin: auto; max-width: 855px; padding-top: 10px;}
 
   .bar-chart2-container, .bar-chart3-container { padding: 10px 10px 0; }
+
+  #map {
+    height: calc(100% - 100px);
+    border: 10px solid black;
+    box-sizing: border-box;
+    margin: 20px;
+  }
+}
+
+// with expandable options
+.grid-stack-item-content[data-exp-width] {
+  overflow-x: hidden;
+
+  .exp-card { position: absolute; top: 0; left: 0; }
+
+  .exp {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+}
+.grid-stack-item-content[data-exp-width]:hover {
+  .exp {
+    opacity: 1;
+  }
 }
