@@ -120,7 +120,58 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    return { data };
+    let views = [
+      {
+        name: 'Default View',
+        values: {
+          currentData: {name:'Current Data',                                  on:true, x:0, y:0},
+          numberOfCompartmentUsers: {name:'Number of Compartment Users',      on:true, x:0, y:4},
+          numberOfContainers: {name:'Number of Containers',                   on:true, x:2, y:0},
+          totalDivisions: {name:'Total Divisions',                            on:true, x:8, y:0},
+          ERPActiveUsers: {name:'ERP Active Users',                           on:true, x:8, y:6},
+          ERPAccessLocations: {name:'ERP Access Locations',                   on:true, x:0, y:9},
+          vouchersUsage: {name:'Vouchers Usage',                              on:true, x:8, y:11},
+          usersUsingBoiAuth: {name:'Users using Bio Auth',                    on:true, x:0, y:16},
+          usersUsingIdCards: {name:'Users using ID Cards',                    on:true, x:2, y:16},
+          trackersDeployed: {name:'Trackers Deployed',                        on:true, x:4, y:16},
+          realTimeDataPoints: {name:'Real time data points',                  on:true, x:6, y:16},
+          fileApprovedToday: {name:'File Approved Today',                     on:true, x:0, y:20},
+          containerForwardingApproved: {name:'Container Forwarding Approved', on:true, x:8, y:17},
+          packagesUnloaded: {name:'Packages loaded',                          on:true, x:8, y:22},
+          numberOfContainersLoaded: {name:'Number of Containers Loaded',      on:true, x:10, y:17},
+          onFieldOfficers: {name:'On field Officers',                         on:true, x:0, y:26},
+          securitySettingsUpdates: {name:'Security Setting Updates',          on:true, x:2, y:26},
+          craneUsage: {name:'Crane Usage',                                    on:true, x:8, y:26},
+          unlabledData: {name:'Unlabled Data',                                on:true, x:10, y:26},
+        }
+      },
+      {
+        name: 'mini View',
+        values: {
+          currentData: {name:'Current Data',                                  on:true, x:0, y:0},
+          numberOfCompartmentUsers: {name:'Number of Compartment Users',      on:true, x:0, y:4},
+          numberOfContainers: {name:'Number of Containers',                   on:true, x:2, y:0},
+          totalDivisions: {name:'Total Divisions',                            on:true, x:8, y:0},
+          ERPActiveUsers: {name:'ERP Active Users',                           on:true, x:8, y:6},
+          ERPAccessLocations: {name:'ERP Access Locations',                   on:true, x:0, y:9},
+          vouchersUsage: {name:'Vouchers Usage',                              on:false, x:8, y:11},
+          usersUsingBoiAuth: {name:'Users using Bio Auth',                    on:false, x:0, y:16},
+          usersUsingIdCards: {name:'Users using ID Cards',                    on:false, x:2, y:16},
+          trackersDeployed: {name:'Trackers Deployed',                        on:false, x:4, y:16},
+          realTimeDataPoints: {name:'Real time data points',                  on:false, x:6, y:16},
+          fileApprovedToday: {name:'File Approved Today',                     on:false, x:0, y:20},
+          containerForwardingApproved: {name:'Container Forwarding Approved', on:false, x:8, y:17},
+          packagesUnloaded: {name:'Packages loaded',                          on:false, x:8, y:22},
+          numberOfContainersLoaded: {name:'Number of Containers Loaded',      on:false, x:10, y:17},
+          onFieldOfficers: {name:'On field Officers',                         on:false, x:0, y:26},
+          securitySettingsUpdates: {name:'Security Setting Updates',          on:false, x:2, y:26},
+          craneUsage: {name:'Crane Usage',                                    on:false, x:8, y:26},
+          unlabledData: {name:'Unlabled Data',                                on:false, x:10, y:26},
+        }
+      }
+    ]
+
+    return { data, views };
   }
 
 }

@@ -8,17 +8,19 @@ import { InMemoryDataService }  from './in-memory-data.service';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { PreloaderComponent } from './components/preloader/preloader.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PreloaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {delay: 2000})
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {})
   ],
   providers: [],
   bootstrap: [AppComponent]

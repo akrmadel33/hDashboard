@@ -16,6 +16,36 @@ declare var google:any;
 })
 export class AppComponent implements AfterViewInit {
 
+  views:any;
+  viewNames = [];
+  viewItems = [];
+  currentView_name:string;
+  currentView_values = {
+    currentData:                  {on:true, x:0, y:0},
+    numberOfCompartmentUsers:     {on:true, x:0, y:4},
+    numberOfContainers:           {on:true, x:2, y:0},
+    totalDivisions:               {on:true, x:8, y:0},
+    ERPActiveUsers:               {on:true, x:8, y:6},
+    ERPAccessLocations:           {on:true, x:0, y:9},
+    vouchersUsage:                {on:true, x:8, y:11},
+    usersUsingBoiAuth:            {on:true, x:0, y:16},
+    usersUsingIdCards:            {on:true, x:2, y:16},
+    trackersDeployed:             {on:true, x:4, y:16},
+    realTimeDataPoints:           {on:true, x:6, y:16},
+    fileApprovedToday:            {on:true, x:0, y:20},
+    containerForwardingApproved:  {on:true, x:8, y:17},
+    packagesUnloaded:             {on:true, x:8, y:22},
+    numberOfContainersLoaded:     {on:true, x:10, y:17},
+    onFieldOfficers:              {on:true, x:0, y:26},
+    securitySettingsUpdates:      {on:true, x:2, y:26},
+    craneUsage:                   {on:true, x:8, y:26},
+    unlabledData:                 {on:true, x:10, y:26},
+  };
+
+  isCustomize = false;
+  isAddWidget = false;
+  gsHeight:number;
+
   apiData = {
     currentData: [],
     currentData_width: 0,
@@ -50,23 +80,26 @@ export class AppComponent implements AfterViewInit {
   constructor( private http:HttpClient ) {}
 
   ngAfterViewInit() {
+    var views = this.http.get('api/views').subscribe( (res) => this.resolveViews(res) );
+
     var api = Observable.timer(0, 10000).subscribe(() => {
       this.http.get('api/data')
         .pipe(
           catchError( this.handleError('getHeroes', []) )
         )
         .subscribe( res => this.resolveApi(res) )
-    })
+    });
 
-    $(document).ready( () => { this.charts(); this.initMap(); this.initExp() } );
+    $(document).ready( () => { this.charts(); this.initMap(); this.changeView() } );
+
+    $(window).on('load resize', () => { this.initExp(); this.initWidgetCustomize(); });
 
     $('#grid1').gridstack({
       animate: true,
-      disableResize : true
+      disableResize: true,
+      disableDrag: true
     });
   }
-
-
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
@@ -285,8 +318,6 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-
-
   initMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: { lat: -24.397, lng: 130.644 },
@@ -294,20 +325,13 @@ export class AppComponent implements AfterViewInit {
       streetViewControl: false
     });
 
-    this.gridStackConflict();
+    // resolves the inability to drag the map without dragging the widget
+    // Depricated - Replaced by customize button
+    // $('#map').hover(
+    //   () => $('.grid-stack').data('gridstack').disable(),
+    //   () => $('.grid-stack').data('gridstack').movable('.grid-stack-item', true)
+    // );
   }
-
-
-
-  // resolves the inability to drag the map without dragging the widget
-  gridStackConflict() {
-    $('#map').hover(
-      () => $('.grid-stack').data('gridstack').disable(),
-      () => $('.grid-stack').data('gridstack').movable('.grid-stack-item', true)
-    );
-  }
-
-
 
   initExp() {
     this.apiData.currentData_width = $('.grid-stack-item').find('.grid-stack-item-content[data-current-data]').width()
@@ -318,21 +342,6 @@ export class AppComponent implements AfterViewInit {
 
     this.apiData.craneUsage_width = $('.grid-stack-item').find('.grid-stack-item-content[data-crane-usage]').width()
     this.apiData.craneUsage_height = $('.grid-stack-item').find('.grid-stack-item-content[data-crane-usage]').height()
-
-    //style work on the horizontal expansion elements
-    let expWidth = $('.grid-stack-item').find('.grid-stack-item-content[data-exp-width]')
-
-    _.forEach(expWidth, (el) => {
-
-      $(el).children('.exp-card').width( $(el).width() );
-      $(el).children('.exp-card').height( $(el).height() );
-      let i = 0;
-      _.forEach($(el).children('.exp-card'), (cardEl) => {
-        $(cardEl).css('left', $(el).width()*i + i*24);
-        i++
-      });
-
-    });
 
     //click event on horizontal expansion elements
     $('.grid-stack-item').find('.grid-stack-item-content[data-exp-width]').find('.exp').on('click', function(ev) {
@@ -356,9 +365,25 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
+  resolveViews(res) {
+    this.views = res;
+    _.forEach(res, (view) => this.viewNames.push(view.name))
+    this.currentView_name = this.viewNames[0];
+    this.getViewValues();
+    this.getViewItems();
+  }
 
+  getViewValues() {
+    this.currentView_values = _.find(this.views, {name:this.currentView_name}).values;
+  }
+
+  getViewItems() {
+    this.viewItems = _.filter(this.currentView_values, (val) => !val.on);
+  }
 
   resolveApi(res) {
+    $('#preloader').addClass('hidden');
+
     _.forEach(res, data => {
 
       switch (data.name) {
@@ -463,8 +488,6 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-
-
   updateMarkers() {
     for(let i=0; i<this.markers.length; i++) {
       this.markers[i].setMap(null);
@@ -480,6 +503,252 @@ export class AppComponent implements AfterViewInit {
 
       this.markers.push(marker);
     }
+  }
+
+  customizePage() {
+    this.isCustomize = !this.isCustomize;
+
+    if(this.isCustomize) {
+      $('.grid-stack').data('gridstack').movable('.grid-stack-item', true);
+    } else {
+      $('.grid-stack').data('gridstack').disable();
+    }
+
+  }
+
+  changeView() {
+    let self = this;
+    $('#viewsController').on('change', function() {
+      self.currentView_name = $(this).val();
+      $('#preloader').removeClass('hidden');
+      self.getViewValues();
+      self.getViewItems();
+    })
+
+    $('.currentViewName').bind("DOMSubtreeModified", () => {
+      this.forcePosition();
+      $('#preloader').addClass('hidden');
+    });
+  }
+
+  //Depricated - Saved for later
+  gridDestroy() {
+    this.gsHeight = $('.grid-stack').height();
+    $('.grid-stack').removeClass().addClass('grid-stack');
+    $('.grid-stack').removeAttr('style');
+    $('.grid-stack').removeAttr('data-gs-current-height');
+    $('.grid-stack-item').removeClass().addClass('grid-stack-item');
+    $('.grid-stack-item-content').removeClass().addClass('grid-stack-item-content');
+    $('.grid-stack-item').children('.ui-resizable-handle').remove();
+  }
+
+  forcePosition() {
+    let grid = $('.grid-stack').data('gridstack');
+
+    grid.move($('.grid-stack-item[data-currentData]'), this.currentView_values.currentData.x, this.currentView_values.currentData.y);
+    grid.move($('.grid-stack-item[data-numberOfCompartmentUsers]'), this.currentView_values.numberOfCompartmentUsers.x, this.currentView_values.numberOfCompartmentUsers.y);
+    grid.move($('.grid-stack-item[data-numberOfContainers]'), this.currentView_values.numberOfContainers.x, this.currentView_values.numberOfContainers.y);
+    grid.move($('.grid-stack-item[data-totalDivisions]'), this.currentView_values.totalDivisions.x, this.currentView_values.totalDivisions.y);
+    grid.move($('.grid-stack-item[data-ERPActiveUsers]'), this.currentView_values.ERPActiveUsers.x, this.currentView_values.ERPActiveUsers.y);
+    grid.move($('.grid-stack-item[data-ERPAccessLocations]'), this.currentView_values.ERPAccessLocations.x, this.currentView_values.ERPAccessLocations.y);
+    grid.move($('.grid-stack-item[data-vouchersUsage]'), this.currentView_values.vouchersUsage.x, this.currentView_values.vouchersUsage.y);
+    grid.move($('.grid-stack-item[data-usersUsingBoiAuth]'), this.currentView_values.usersUsingBoiAuth.x, this.currentView_values.usersUsingBoiAuth.y);
+    grid.move($('.grid-stack-item[data-usersUsingIdCards]'), this.currentView_values.usersUsingIdCards.x, this.currentView_values.usersUsingIdCards.y);
+    grid.move($('.grid-stack-item[data-trackersDeployed]'), this.currentView_values.trackersDeployed.x, this.currentView_values.trackersDeployed.y);
+    grid.move($('.grid-stack-item[data-realTimeDataPoints]'), this.currentView_values.realTimeDataPoints.x, this.currentView_values.realTimeDataPoints.y);
+    grid.move($('.grid-stack-item[data-fileApprovedToday]'), this.currentView_values.fileApprovedToday.x, this.currentView_values.fileApprovedToday.y);
+    grid.move($('.grid-stack-item[data-containerForwardingApproved]'), this.currentView_values.containerForwardingApproved.x, this.currentView_values.containerForwardingApproved.y);
+    grid.move($('.grid-stack-item[data-packagesUnloaded]'), this.currentView_values.packagesUnloaded.x, this.currentView_values.packagesUnloaded.y);
+    grid.move($('.grid-stack-item[data-numberOfContainersLoaded]'), this.currentView_values.numberOfContainersLoaded.x, this.currentView_values.numberOfContainersLoaded.y);
+    grid.move($('.grid-stack-item[data-onFieldOfficers]'), this.currentView_values.onFieldOfficers.x, this.currentView_values.onFieldOfficers.y);
+    grid.move($('.grid-stack-item[data-securitySettingsUpdates]'), this.currentView_values.securitySettingsUpdates.x, this.currentView_values.securitySettingsUpdates.y);
+    grid.move($('.grid-stack-item[data-craneUsage]'), this.currentView_values.craneUsage.x, this.currentView_values.craneUsage.y);
+    grid.move($('.grid-stack-item[data-unlabledData]'), this.currentView_values.unlabledData.x, this.currentView_values.unlabledData.y);
+  }
+
+  initWidgetCustomize() {
+    let self = this;
+
+    //remove specific widget
+    $('.remove').on('click', function(ev) {
+      switch ($(this).parents('.grid-stack-item')[0]) {
+        case $('.grid-stack-item[data-currentData]')[0]:
+          self.currentView_values.currentData.on = false;
+          break;
+
+        case $('.grid-stack-item[data-numberOfCompartmentUsers]')[0]:
+          self.currentView_values.numberOfCompartmentUsers.on = false;
+          break;
+
+        case $('.grid-stack-item[data-numberOfContainers]')[0]:
+          self.currentView_values.numberOfContainers.on = false;
+          break;
+
+        case $('.grid-stack-item[data-totalDivisions]')[0]:
+          self.currentView_values.totalDivisions.on = false;
+          break;
+
+        case $('.grid-stack-item[data-ERPActiveUsers]')[0]:
+          self.currentView_values.ERPActiveUsers.on = false;
+          break;
+
+        case $('.grid-stack-item[data-ERPAccessLocations]')[0]:
+          self.currentView_values.ERPAccessLocations.on = false;
+          break;
+
+        case $('.grid-stack-item[data-vouchersUsage]')[0]:
+          self.currentView_values.vouchersUsage.on = false;
+          break;
+
+        case $('.grid-stack-item[data-usersUsingBoiAuth]')[0]:
+          self.currentView_values.usersUsingBoiAuth.on = false;
+          break;
+
+        case $('.grid-stack-item[data-usersUsingIdCards]')[0]:
+          self.currentView_values.usersUsingIdCards.on = false;
+          break;
+
+        case $('.grid-stack-item[data-trackersDeployed]')[0]:
+          self.currentView_values.trackersDeployed.on = false;
+          break;
+
+        case $('.grid-stack-item[data-realTimeDataPoints]')[0]:
+          self.currentView_values.realTimeDataPoints.on = false;
+          break;
+
+        case $('.grid-stack-item[data-fileApprovedToday]')[0]:
+          self.currentView_values.fileApprovedToday.on = false;
+          break;
+
+        case $('.grid-stack-item[data-containerForwardingApproved]')[0]:
+          self.currentView_values.containerForwardingApproved.on = false;
+          break;
+
+        case $('.grid-stack-item[data-packagesUnloaded]')[0]:
+          self.currentView_values.packagesUnloaded.on = false;
+          break;
+
+        case $('.grid-stack-item[data-numberOfContainersLoaded]')[0]:
+          self.currentView_values.numberOfContainersLoaded.on = false;
+          break;
+
+        case $('.grid-stack-item[data-onFieldOfficers]')[0]:
+          self.currentView_values.onFieldOfficers.on = false;
+          break;
+
+        case $('.grid-stack-item[data-securitySettingsUpdates]')[0]:
+          self.currentView_values.securitySettingsUpdates.on = false;
+          break;
+
+        case $('.grid-stack-item[data-craneUsage]')[0]:
+          self.currentView_values.craneUsage.on = false;
+          break;
+
+        case $('.grid-stack-item[data-unlabledData]')[0]:
+          self.currentView_values.unlabledData.on = false;
+          break;
+
+        default:
+          break;
+      }
+
+      self.getViewItems();
+    });
+
+    //open add widget tab
+    $('.add').on('click', function(ev) {
+      self.isAddWidget = true;
+    });
+
+    //close add widget tab
+    $('.add-widgets').on('click', function(ev) {
+      self.isAddWidget = false;
+    })
+  }
+
+  addWidget(item) {
+    switch (item.name) {
+      case 'Current Data':
+        this.currentView_values.currentData.on = true;
+        break;
+
+      case 'Number of Compartment Users':
+        this.currentView_values.numberOfCompartmentUsers.on = true;
+        break;
+
+      case 'Number of Containers':
+        this.currentView_values.numberOfContainers.on = true;
+        break;
+
+      case 'Total Divisions':
+        this.currentView_values.totalDivisions.on = true;
+        break;
+
+      case 'ERP Active Users':
+        this.currentView_values.ERPActiveUsers.on = true;
+        break;
+
+      case 'ERP Access Locations':
+        this.currentView_values.ERPAccessLocations.on = true;
+        break;
+
+      case 'Vouchers Usage':
+        this.currentView_values.vouchersUsage.on = true;
+        break;
+
+      case 'Users using Bio Auth':
+        this.currentView_values.usersUsingBoiAuth.on = true;
+        break;
+
+      case 'Users using ID Cards':
+        this.currentView_values.usersUsingIdCards.on = true;
+        break;
+
+      case 'Trackers Deployed':
+        this.currentView_values.trackersDeployed.on = true;
+        break;
+
+      case 'Real time data points':
+        this.currentView_values.realTimeDataPoints.on = true;
+        break;
+
+      case 'File Approved Today':
+        this.currentView_values.fileApprovedToday.on = true;
+        break;
+
+      case 'Container Forwarding Approved':
+        this.currentView_values.containerForwardingApproved.on = true;
+        break;
+
+      case 'Packages loaded':
+        this.currentView_values.packagesUnloaded.on = true;
+        break;
+
+      case 'Number of Containers Loaded':
+        this.currentView_values.numberOfContainersLoaded.on = true;
+        break;
+
+      case 'On field Officers':
+        this.currentView_values.onFieldOfficers.on = true;
+        break;
+
+      case 'Security Setting Updates':
+        this.currentView_values.securitySettingsUpdates.on = true;
+        break;
+
+      case 'Crane Usage':
+        this.currentView_values.craneUsage.on = true;
+        break;
+
+      case 'Unlabled Data':
+        this.currentView_values.unlabledData.on = true;
+        break;
+
+      default:
+        break;
+    }
+
+    this.getViewItems();
   }
 
 }

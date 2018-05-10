@@ -6,6 +6,43 @@ body {
   margin: 15px;
 }
 
+.hidden { display: none !important; }
+.active { color: $border-color; }
+
+#customization {
+  .titles {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 20px;
+    padding-bottom: 40px;
+    font-size: 3vw;
+    font-family: $label-font;
+
+    div:nth-child(2) {
+      text-align: right;
+      font-size: 1.5vw;
+      cursor: pointer;
+      transition: 0.2s all;
+
+      &:hover {
+      color: $border-color;
+      }
+
+      span {
+        border: 2px solid $border-color;
+        border-radius: 5px;
+        padding: 15px;
+        margin-right: 10px;
+
+        &.add {
+          color: limegreen;
+        }
+      }
+    }
+  }
+}
+
 .grid-stack-item-content {
   border: 2px solid $border-color;
   border-radius: $border-radius;
@@ -139,6 +176,8 @@ body {
     box-sizing: border-box;
     margin: 20px;
   }
+
+  .remove { display: none; }
 }
 
 // with expandable options
@@ -159,5 +198,81 @@ body {
 .grid-stack-item-content[data-exp-width]:hover {
   .exp {
     opacity: 1;
+  }
+}
+
+//when customizing the page
+.customize {
+  .remove {
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color: black !important;
+
+    &:hover { color: red !important; }
+  }
+}
+
+.add-widgets {
+  position: fixed;
+  width: 100%; height: 100%;
+  top: 0; left: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+
+  &.active { display: block; }
+
+  .widgets-container {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: #222;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.5);
+    padding: 20px;
+    border: 2px solid #95a5a6;
+    border-radius: 5px;
+
+    .widget-name {
+      border: 1px solid #aaa;
+      border-color: rgba(0,0,0,0.3);
+      border-bottom-color: #777;
+      border-bottom-color: rgba(0,0,0,0.5);
+      background-color: #fff;
+      color: #000;
+      box-shadow: inset 0 0.08em 0 rgba(255,255,255,0.7), inset 0 0 0.08em rgba(255,255,255,0.5);
+      cursor: pointer;
+      display: inline-block;
+      font: bold 100%/2.1 "Lucida Grande", Tahoma, sans-serif;
+      padding: 0 .95em 0 0;
+      text-align: center;
+      text-decoration: none;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+      white-space: nowrap;
+      border-radius: .3em;
+      background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.05) 49%, rgba(0,0,0,.05) 51%, rgba(0,0,0,.1));
+      margin: 8px 8px;
+
+      &::before {
+        content: "";
+        border-right: 0.075em solid rgba(0,0,0,0.1);
+        float: left;
+        font: 120%/1.65 zocial;
+        font-style: normal;
+        font-weight: normal;
+        margin: 0 0.5em 0 0;
+        padding: 0 0.5em;
+        text-align: center;
+        text-decoration: none;
+        text-transform: none;
+        box-shadow: 0.075em 0 0 rgba(255,255,255,0.25);
+      }
+
+      &:hover, &:focus {
+        background-image: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.3) 49%, rgba(0,0,0,0.15) 51%, rgba(0,0,0,0.25));
+      }
+    }
   }
 }
