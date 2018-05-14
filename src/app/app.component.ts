@@ -16,35 +16,35 @@ declare var google:any;
 })
 export class AppComponent implements AfterViewInit {
 
-  views:any;
-  viewNames = [];
-  viewItems = [];
+  views:any;      // <-- contains all the views from the API
+  viewNames = []; // <-- contains all view names from the API || used for selecting views
+  viewItems = []; // <-- contains all view itesm that are not visible || used for the add widget
   currentView_name:string;
   currentView_values = {
-    currentData:                  {on:true, x:0, y:0},
-    numberOfCompartmentUsers:     {on:true, x:0, y:4},
-    numberOfContainers:           {on:true, x:2, y:0},
-    totalDivisions:               {on:true, x:8, y:0},
-    ERPActiveUsers:               {on:true, x:8, y:6},
-    ERPAccessLocations:           {on:true, x:0, y:9},
-    vouchersUsage:                {on:true, x:8, y:11},
-    usersUsingBoiAuth:            {on:true, x:0, y:16},
-    usersUsingIdCards:            {on:true, x:2, y:16},
-    trackersDeployed:             {on:true, x:4, y:16},
-    realTimeDataPoints:           {on:true, x:6, y:16},
-    fileApprovedToday:            {on:true, x:0, y:20},
-    containerForwardingApproved:  {on:true, x:8, y:17},
-    packagesUnloaded:             {on:true, x:8, y:22},
-    numberOfContainersLoaded:     {on:true, x:10, y:17},
-    onFieldOfficers:              {on:true, x:0, y:26},
-    securitySettingsUpdates:      {on:true, x:2, y:26},
-    craneUsage:                   {on:true, x:8, y:26},
-    unlabledData:                 {on:true, x:10, y:26},
+    currentData: {name:'Current Data',                                  on:true, x:0, y:0},
+    numberOfCompartmentUsers: {name:'Number of Compartment Users',      on:true, x:0, y:4},
+    numberOfContainers: {name:'Number of Containers',                   on:true, x:2, y:0},
+    totalDivisions: {name:'Total Divisions',                            on:true, x:8, y:0},
+    ERPActiveUsers: {name:'ERP Active Users',                           on:true, x:8, y:6},
+    ERPAccessLocations: {name:'ERP Access Locations',                   on:true, x:0, y:9},
+    vouchersUsage: {name:'Vouchers Usage',                              on:true, x:8, y:11},
+    usersUsingBoiAuth: {name:'Users using Bio Auth',                    on:true, x:0, y:16},
+    usersUsingIdCards: {name:'Users using ID Cards',                    on:true, x:2, y:16},
+    trackersDeployed: {name:'Trackers Deployed',                        on:true, x:4, y:16},
+    realTimeDataPoints: {name:'Real time data points',                  on:true, x:6, y:16},
+    fileApprovedToday: {name:'File Approved Today',                     on:true, x:0, y:20},
+    containerForwardingApproved: {name:'Container Forwarding Approved', on:true, x:8, y:17},
+    packagesUnloaded: {name:'Packages loaded',                          on:true, x:8, y:22},
+    numberOfContainersLoaded: {name:'Number of Containers Loaded',      on:true, x:10, y:17},
+    onFieldOfficers: {name:'On field Officers',                         on:true, x:0, y:26},
+    securitySettingsUpdates: {name:'Security Setting Updates',          on:true, x:2, y:26},
+    craneUsage: {name:'Crane Usage',                                    on:true, x:8, y:26},
+    unlabledData: {name:'Unlabled Data',                                on:true, x:10, y:26},
   };
 
   isCustomize = false;
   isAddWidget = false;
-  gsHeight:number;
+  gsHeight:number;  // <-- saves the height of the default grid
 
   apiData = {
     currentData: [],
@@ -505,6 +505,7 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
+  // clicking the customize page button
   customizePage() {
     this.isCustomize = !this.isCustomize;
 
@@ -516,19 +517,128 @@ export class AppComponent implements AfterViewInit {
 
   }
 
+  // change view, change view name, and moving widgets
   changeView() {
     let self = this;
+
     $('#viewsController').on('change', function() {
       self.currentView_name = $(this).val();
       $('#preloader').removeClass('hidden');
+      self.customizePage();
       self.getViewValues();
       self.getViewItems();
     })
 
     $('.currentViewName').bind("DOMSubtreeModified", () => {
-      this.forcePosition();
+      self.forcePosition();
       $('#preloader').addClass('hidden');
     });
+
+    $('.grid-stack').on('change', function(event, items) {
+      if(self.isCustomize) {
+        _.forEach(items, (item) => {
+          switch ( item.el[0] ) {
+            case $('.grid-stack-item[data-currentData]')[0]:
+              self.currentView_values.currentData.x = item.x;
+              self.currentView_values.currentData.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-numberOfCompartmentUsers]')[0]:
+              self.currentView_values.numberOfCompartmentUsers.x = item.x;
+              self.currentView_values.numberOfCompartmentUsers.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-numberOfContainers]')[0]:
+              self.currentView_values.numberOfContainers.x = item.x;
+              self.currentView_values.numberOfContainers.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-totalDivisions]')[0]:
+              self.currentView_values.totalDivisions.x = item.x;
+              self.currentView_values.totalDivisions.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-ERPActiveUsers]')[0]:
+              self.currentView_values.ERPActiveUsers.x = item.x;
+              self.currentView_values.ERPActiveUsers.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-ERPAccessLocations]')[0]:
+              self.currentView_values.ERPAccessLocations.x = item.x;
+              self.currentView_values.ERPAccessLocations.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-vouchersUsage]')[0]:
+              self.currentView_values.vouchersUsage.x = item.x;
+              self.currentView_values.vouchersUsage.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-usersUsingBoiAuth]')[0]:
+              self.currentView_values.usersUsingBoiAuth.x = item.x;
+              self.currentView_values.usersUsingBoiAuth.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-usersUsingIdCards]')[0]:
+              self.currentView_values.usersUsingIdCards.x = item.x;
+              self.currentView_values.usersUsingIdCards.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-trackersDeployed]')[0]:
+              self.currentView_values.trackersDeployed.x = item.x;
+              self.currentView_values.trackersDeployed.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-realTimeDataPoints]')[0]:
+              self.currentView_values.realTimeDataPoints.x = item.x;
+              self.currentView_values.realTimeDataPoints.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-fileApprovedToday]')[0]:
+              self.currentView_values.fileApprovedToday.x = item.x;
+              self.currentView_values.fileApprovedToday.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-containerForwardingApproved]')[0]:
+              self.currentView_values.containerForwardingApproved.x = item.x;
+              self.currentView_values.containerForwardingApproved.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-packagesUnloaded]')[0]:
+              self.currentView_values.packagesUnloaded.x = item.x;
+              self.currentView_values.packagesUnloaded.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-numberOfContainersLoaded]')[0]:
+              self.currentView_values.numberOfContainersLoaded.x = item.x;
+              self.currentView_values.numberOfContainersLoaded.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-onFieldOfficers]')[0]:
+              self.currentView_values.onFieldOfficers.x = item.x;
+              self.currentView_values.onFieldOfficers.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-securitySettingsUpdates]')[0]:
+              self.currentView_values.securitySettingsUpdates.x = item.x;
+              self.currentView_values.securitySettingsUpdates.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-craneUsage]')[0]:
+              self.currentView_values.craneUsage.x = item.x;
+              self.currentView_values.craneUsage.y = item.y;
+              break;
+
+            case $('.grid-stack-item[data-unlabledData]')[0]:
+              self.currentView_values.unlabledData.x = item.x;
+              self.currentView_values.unlabledData.y = item.y;
+              break;
+
+            default:
+              break;
+          }
+        })
+      }
+    })
   }
 
   //Depricated - Saved for later
@@ -566,6 +676,7 @@ export class AppComponent implements AfterViewInit {
     grid.move($('.grid-stack-item[data-unlabledData]'), this.currentView_values.unlabledData.x, this.currentView_values.unlabledData.y);
   }
 
+  // Remove, Open, and Close Widgets
   initWidgetCustomize() {
     let self = this;
 
@@ -749,6 +860,71 @@ export class AppComponent implements AfterViewInit {
     }
 
     this.getViewItems();
+  }
+
+  // adding new view
+  addView() {
+    let newView = prompt('Name your new view', 'new View');
+
+    if(newView != null) {
+      let _view = { name: '', values: {} };
+      _view.name = newView;
+      _view.values = {
+        currentData: {name:'Current Data',                                  on:true, x:0, y:0},
+        numberOfCompartmentUsers: {name:'Number of Compartment Users',      on:true, x:0, y:4},
+        numberOfContainers: {name:'Number of Containers',                   on:true, x:2, y:0},
+        totalDivisions: {name:'Total Divisions',                            on:true, x:8, y:0},
+        ERPActiveUsers: {name:'ERP Active Users',                           on:true, x:8, y:6},
+        ERPAccessLocations: {name:'ERP Access Locations',                   on:true, x:0, y:9},
+        vouchersUsage: {name:'Vouchers Usage',                              on:true, x:8, y:11},
+        usersUsingBoiAuth: {name:'Users using Bio Auth',                    on:true, x:0, y:16},
+        usersUsingIdCards: {name:'Users using ID Cards',                    on:true, x:2, y:16},
+        trackersDeployed: {name:'Trackers Deployed',                        on:true, x:4, y:16},
+        realTimeDataPoints: {name:'Real time data points',                  on:true, x:6, y:16},
+        fileApprovedToday: {name:'File Approved Today',                     on:true, x:0, y:20},
+        containerForwardingApproved: {name:'Container Forwarding Approved', on:true, x:8, y:17},
+        packagesUnloaded: {name:'Packages loaded',                          on:true, x:8, y:22},
+        numberOfContainersLoaded: {name:'Number of Containers Loaded',      on:true, x:10, y:17},
+        onFieldOfficers: {name:'On field Officers',                         on:true, x:0, y:26},
+        securitySettingsUpdates: {name:'Security Setting Updates',          on:true, x:2, y:26},
+        craneUsage: {name:'Crane Usage',                                    on:true, x:8, y:26},
+        unlabledData: {name:'Unlabled Data',                                on:true, x:10, y:26},
+      };
+
+      this.views.push(_view);
+      this.viewNames.push(newView);
+
+      this.currentView_name = newView;
+      setTimeout(() => $('#viewsController').val(newView) , 100);
+      this.getViewValues();
+      this.getViewItems();
+    }
+  }
+
+  // removing view
+  removeView() {
+    let self = this;
+    let newView = [];
+
+    // stop when only one view is left
+    if(this.views.length == 1) { return false }
+
+    // deleting the current view from views
+    _.forEach(this.views, function(view) {
+      ( view.name == self.currentView_name ) ? false : newView.push(view);
+    })
+    this.views = newView;
+
+    // changing the current view to the next one
+    this.currentView_name = this.views[0].name;
+    this.currentView_values = this.views[0].values;
+    this.viewNames = [];
+    _.forEach(this.views, (view) => this.viewNames.push(view.name));
+  }
+
+  // console log the current views
+  uploadViews() {
+    console.log( this.views )
   }
 
 }

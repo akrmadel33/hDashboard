@@ -4,15 +4,23 @@
 
 <div id="customization">
   <div class="titles">
-    <div> {{ currentView_name }} </div>
+    <div class="currentViewName">
+      <span class="icon-upload2" (click)="uploadViews()"></span>
+      {{ currentView_name }}
+    </div>
 
     <div>
-      <span (click)="customizePage()" [class.active]="isCustomize">Customize page</span>
+      <span (click)="customizePage()" [class.active]="isCustomize" class="customize-page">Customize page</span>
       <span class="add icon-plus" [class.hidden]="!isCustomize"></span>
 
       <select id="viewsController" [class.hidden]="!isCustomize">
         <option *ngFor="let item of viewNames">{{ item }}</option>
       </select>
+
+      <div class="viewAddRemove" [class.hidden]="!isCustomize">
+        <span class="icon-plus" (click)="addView()"></span>
+        <span class="icon-minus" (click)="removeView()"></span>
+      </div>
     </div>
   </div>
 </div>

@@ -19,6 +19,16 @@ body {
     font-size: 3vw;
     font-family: $label-font;
 
+    .currentViewName span {
+      font-size: 2vw;
+      cursor: pointer;
+      transition: 0.3s all;
+
+      &:hover {
+        color: lighten(#e84118, 10);
+      }
+    }
+
     div:nth-child(2) {
       text-align: right;
       font-size: 1.5vw;
@@ -37,6 +47,21 @@ body {
 
         &.add {
           color: limegreen;
+        }
+      }
+
+      .viewAddRemove {
+        display: inline-block;
+
+        span {
+          padding: 5px;
+          font-size: 1.1vw;
+          margin: 0 5px;
+          color: #f5f6fa;
+          border: none;
+
+          &.icon-plus { background-color: #4cd137 }
+          &.icon-minus { background-color: #e84118 }
         }
       }
     }
